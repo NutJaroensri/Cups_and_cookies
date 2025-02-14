@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import Home from './pages/Home';
 
 function App() {
-  const [recipes, setRecipes] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/recipes')
-      .then(response => response.json())
-      .then(data => setRecipes(data))
-      .catch(error => console.error('Error fetching recipes:', error));
-  }, []);
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
 
   return (
-    <div>
-      <h1>Cups & Cookies</h1>
-      <h2>Recipes:</h2>
-      <ul>
-        {recipes.map(recipe => (
-          <li key={recipe.id}>
-            {recipe.name} - Ingredients: {recipe.ingredients.join(", ")}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={token ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route
+          path="/admin-dashboard"
+          element={token && role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
