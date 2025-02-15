@@ -1,0 +1,3 @@
+PORT=5000
+MONGO_URI=mongodb+srv://enyouthree:0807989870Db@cluster0.f2ocl.mongodb.net/cups_and_cookies?retryWrites=true&w=majority&appName=Cluster0
+JWT_SECRET=CupsAndCookiesJWTKey61
