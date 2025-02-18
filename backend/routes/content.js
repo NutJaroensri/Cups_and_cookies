@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const subscriptionAuth = require('../middleware/subscriptionAuth');
+const subscriptionAuth = require('../middleware/subscriptionAuth.js');
 
 // Public Content - Available to everyone (even guests)
 router.get('/public', (req, res) => {

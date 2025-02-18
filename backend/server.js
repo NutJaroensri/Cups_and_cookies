@@ -19,13 +19,16 @@ app.use('/api/content', require('./routes/content'));
 app.get('/api/test', (req, res) => {
   res.send('Backend is working!');
 });
-app.get('/api/recipes', (req, res) => {
+/*app.get('/api/recipes', (req, res) => {
   const recipes = [
     { id: 1, name: "Espresso", ingredients: ["Coffee Beans", "Water"] },
     { id: 2, name: "Croissant", ingredients: ["Flour", "Butter", "Sugar"] },
   ];
   res.json(recipes);
-});
+});*/
+
+app.use('/api/products', require('./routes/products'));
+app.use('/api/recipes', require('./routes/recipes'));
 
 // Connect to MongoDB (replace <your_connection_string> with your actual connection string)
 mongoose.connect(process.env.MONGO_URI)
