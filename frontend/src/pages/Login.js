@@ -1,6 +1,8 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -9,57 +11,43 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-
-      console.log("Login Response:", response.data); // Debugging
-
       if (response.data.token) {
-        // Store token and user info
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('role', response.data.role);
-        localStorage.setItem('subscription', response.data.subscription);
-
-        alert("Login successful!");
-
-        // Redirect based on role
-        if (response.data.role === 'admin') {
-          navigate('/admin-dashboard');  // Ensure this route exists in App.js
-        } else {
-          navigate('/dashboard');
-        }
-      } else {
-        alert("Invalid credentials. Please try again.");
+        navigate(response.data.role === 'admin' ? '/admin-dashboard' : '/dashboard');
       }
-    } catch (error) {
-      console.error("Login error:", error.response?.data?.msg || error.message);
-      alert(error.response?.data?.msg || "Login failed");
+    } catch {
+      alert('Login failed');
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div className="page-container">
+      <div className="page-header">
+        <h1>☕ Cups & Cookies</h1>
+      </div>
+      <div className="form-box">
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label>Email</label>
+            <input className="form-field" type="email" placeholder="example@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </div>
+          <div className="input-group">
+            <label>Password</label>
+            <input className="form-field" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
+          <div className="form-options">
+            <input type="checkbox" id="remember-me" />
+            <label htmlFor="remember-me">Remember me</label>
+          </div>
+          <button className="form-button" type="submit">LOG IN</button>
+          <p className="register-link">
+            Don’t have an account? <a href="/register">SIGN UP</a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
-
 export default Login;

@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Home from './pages/Home';
+import './styles.css';
 
 function App() {
   const token = localStorage.getItem('token');
