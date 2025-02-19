@@ -6,17 +6,27 @@ import '../styles.css';
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');  // Add phone
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+      const response = await axios.post('http://localhost:5000/api/auth/register', { 
+        name, 
+        email, 
+        phone,  // Send phone
+        password, 
+        role: 'user',  // Default role
+        subscription: 'none'  // Default subscription
+      });
+
       alert('Registration successful!');
       navigate('/login');
-    } catch {
-      alert('Registration failed');
+    } catch (error) {
+      console.error('Registration Error:', error.response?.data || error.message);
+      alert('Registration failed: ' + (error.response?.data?.msg || "Unknown error"));
     }
   };
 
@@ -36,6 +46,10 @@ function Register() {
             <input className="form-field" type="email" placeholder="example@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="input-group">
+            <label>Phone</label>
+            <input className="form-field" type="text" placeholder="1234567890" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+          </div>
+          <div className="input-group">
             <label>Password</label>
             <input className="form-field" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
@@ -45,4 +59,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

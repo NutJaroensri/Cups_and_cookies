@@ -3,8 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import PersonalInfo from './pages/PersonalInfo';
 import AdminDashboard from './pages/AdminDashboard';
-import Home from './pages/Home';
+import MainPage from './pages/MainPage'; 
+import Home from './pages/Home'; 
+import Products from './pages/Products'; 
+import Recipes from './pages/Recipes';  
 import './styles.css';
 
 function App() {
@@ -14,14 +18,19 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
+        {/* Protected Routes */}
         <Route path="/dashboard" element={token ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route
-          path="/admin-dashboard"
-          element={token && role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />}
-        />
+        <Route path="/personal-info" element={token ? <PersonalInfo /> : <Navigate to="/login" />} />
+        <Route path="/admin-dashboard" element={token && role === 'admin' ? <AdminDashboard /> : <Navigate to="/login" />} />
+        
+        {/* Public Pages */}
+        <Route path="/mainpage" element={<MainPage />} /> 
+        <Route path="/products" element={<Products />} />
+        <Route path="/recipes" element={<Recipes />} />
       </Routes>
     </Router>
   );

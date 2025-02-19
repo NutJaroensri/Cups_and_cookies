@@ -5,6 +5,8 @@ const cors = require('cors');
 require('dotenv').config();
 //console.log('Mongo URI:', process.env.MONGO_URI);
 
+const productsRoutes = require("./routes/products"); 
+const recipesRoutes = require("./routes/recipes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/admin', require('./routes/admin'));     // Admin-only Routes
 app.use('/api/content', require('./routes/content'));
+
 app.get('/api/test', (req, res) => {
   res.send('Backend is working!');
 });

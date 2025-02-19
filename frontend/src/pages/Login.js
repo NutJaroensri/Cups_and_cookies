@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,14 +12,19 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+  
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        navigate(response.data.role === 'admin' ? '/admin-dashboard' : '/dashboard');
+        localStorage.setItem('userId', response.data.user.id); // ✅ Store user ID
+        localStorage.setItem('username', response.data.user.username); // ✅ Store username
+  
+        navigate('/mainpage');
       }
-    } catch {
-      alert('Login failed');
+    } catch (error) {
+      alert('Login failed. Please check your credentials.');
     }
   };
+  
 
   return (
     <div className="page-container">
@@ -31,11 +35,25 @@ function Login() {
         <form onSubmit={handleLogin}>
           <div className="input-group">
             <label>Email</label>
-            <input className="form-field" type="email" placeholder="example@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input
+              className="form-field"
+              type="email"
+              placeholder="example@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className="input-group">
             <label>Password</label>
-            <input className="form-field" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input
+              className="form-field"
+              type="password"
+              placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
           <div className="form-options">
             <input type="checkbox" id="remember-me" />
@@ -50,4 +68,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;
