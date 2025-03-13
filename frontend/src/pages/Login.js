@@ -12,19 +12,25 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-  
+
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.user.id); // ✅ Store user ID
-        localStorage.setItem('username', response.data.user.username); // ✅ Store username
-  
-        navigate('/mainpage');
+        localStorage.setItem('userId', response.data.user.id);
+        localStorage.setItem('username', response.data.user.username);
+        localStorage.setItem('role', response.data.user.role); // ✅ Store role
+
+        // ✅ Redirect based on role
+        if (response.data.user.role === 'admin') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/mainpage');
+        }
       }
     } catch (error) {
       alert('Login failed. Please check your credentials.');
     }
-  };
-  
+};
+
 
   return (
     <div className="page-container">

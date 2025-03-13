@@ -23,15 +23,13 @@ const Products = () => {
   );
 
   return (
-    <div className="overlay"> {/* ✅ Background color applied */}
-      <div className="centered-container"> {/* ✅ Enlarged blue box */}
-        {/* Top Bar with Back Button */}
+    <div className="overlay">
+      <div className="centered-container">
         <div className="top-controls">
           <button className="back-btn" onClick={() => navigate("/mainpage")}>←</button>
           <h2>Products</h2>
         </div>
 
-        {/* Search Bar */}
         <input
           type="text"
           placeholder="Search products..."
@@ -40,7 +38,6 @@ const Products = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        {/* Category Filters */}
         <div className="categories">
           {["All", "Coffee", "Cakes", "Pastries"].map((category) => (
             <button
@@ -53,10 +50,13 @@ const Products = () => {
           ))}
         </div>
 
-        {/* Product List */}
         <div className="item-list">
           {filteredProducts.map((product) => (
-            <div key={product._id} className="item-card">
+            <div
+              key={product._id}
+              className="item-card"
+              onClick={() => navigate(`/products/${product._id}`)} // Navigate to details page
+            >
               <img src={product.image || "default.jpg"} alt={product.name} className="item-img" />
               <h3>{product.name}</h3>
               <p>⭐ {Math.floor(Math.random() * (5 - 4 + 1) + 4)}.0</p>

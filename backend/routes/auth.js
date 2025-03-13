@@ -11,7 +11,8 @@ router.post('/register', [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please enter a valid email').isEmail(),
     check('phone', 'Phone number is required').not().isEmpty(),
-    check('password', 'Password must be at least 6 characters').isLength({ min: 6 })
+    check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+    check('role', 'Role is required').isIn(['user', 'admin']) // ✅ Ensures only valid roles are allowed
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -39,7 +40,7 @@ router.post('/register', [
             email,
             phone,
             password: hashedPassword,
-            role: role || 'user', // ✅ Default to 'user' if role is not provided
+            role, // ✅ Stores user/admin role correctly
             subscription: subscription || 'none'
         });
 
@@ -48,7 +49,15 @@ router.post('/register', [
         const payload = { user: { id: user.id, name: user.name, role: user.role } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.json({ token, user: { id: user.id, username: user.name, email: user.email, role: user.role } });
+        res.json({ 
+            token, 
+            user: { 
+                id: user.id, 
+                username: user.name, 
+                email: user.email, 
+                role: user.role 
+            } 
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -81,7 +90,15 @@ router.post('/login', [
         const payload = { user: { id: user.id, name: user.name, role: user.role } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.json({ token, user: { id: user.id, username: user.name, email: user.email, role: user.role } });
+        res.json({ 
+            token, 
+            user: { 
+                id: user.id, 
+                username: user.name, 
+                email: user.email, 
+                role: user.role 
+            } 
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

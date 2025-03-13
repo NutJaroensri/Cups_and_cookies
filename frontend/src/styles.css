@@ -748,3 +748,401 @@ input[type="file"] {
   border: 1px solid #ccc;
   background: #f9f9f9;
 }
+
+
+/* 🌟 Admin Dashboard */
+.admin-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e0f4ff;
+  height: 100vh;
+  position: relative;
+}
+
+/* 📌 Profile Card */
+.admin-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 600px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+/* 🏷️ Admin Header */
+.admin-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* 📌 Tabs */
+.admin-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.admin-tabs button {
+  padding: 10px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  flex: 1;
+}
+
+.admin-tabs .active-tab {
+  background: #6d4c41;
+  color: white;
+  font-weight: bold;
+}
+
+/* ✏️ Form Sections */
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-section input, .admin-section textarea {
+  width: 90%;
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.action-btn {
+  background: #6d4c41;
+  color: white;
+  padding: 10px;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
+}
+/* 🌟 User List */
+.user-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 0;
+  width: 100%;
+  text-align: left;
+}
+
+.user-item {
+  background-color: #f5f5f5; /* Light grey for better readability */
+  color: #333; /* Darker text for visibility */
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* 🌟 Highlight Admin Users */
+.user-item.admin {
+  background-color: #6d4c41; /* Coffee brown for admin users */
+  color: white;
+  font-weight: bold;
+}
+
+
+/* 🚪 Logout Button */
+.logout-btn {
+  background: red;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  margin-top: 20px;
+}
+
+
+/* Product Details Page */
+.product-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #4e3222; /* Dark brown background */
+  height: 100vh;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* White Product Box */
+.product-card {
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 80%;
+  max-width: 1000px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  gap: 30px;
+}
+
+/* Product Image */
+.product-image {
+  width: 380px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Product Info Section */
+.product-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Product Name */
+.product-info h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Product Price */
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
+/* Buy Button */
+.buy-btn {
+  background: black;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buy-btn:hover {
+  background: #222;
+}
+
+/* Recipe & Reviews */
+.recipe-section, .reviews-section {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+/* Recipe Title */
+.recipe-section h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Recipe Content */
+.recipe-section p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Reviews Section */
+.reviews-section h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Individual Review */
+.review-card {
+  display: flex;
+  gap: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Review Profile Icon */
+.review-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: gray;
+}
+
+/* Review Text */
+.review-content {
+  flex-grow: 1;
+}
+
+.review-content strong {
+  font-size: 14px;
+  color: black;
+}
+
+.review-content p {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Back Button */
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Recipe Details Page */
+.recipe-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #4e3222; /* Dark brown */
+  height: 100vh;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* White Recipe Card */
+.recipe-card {
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 80%;
+  max-width: 1000px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  gap: 30px;
+}
+
+/* Recipe Image */
+.recipe-image {
+  width: 380px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Recipe Info Section */
+.recipe-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recipe-info h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+.recipe-info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Reviews Section */
+.reviews-section {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.review-card {
+  display: flex;
+  gap: 15px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.review-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: gray;
+}
+
+.review-content {
+  flex-grow: 1;
+}
+
+.review-content strong {
+  font-size: 14px;
+  color: black;
+}
+
+.review-content p {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Star Rating */
+.star {
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.star.selected {
+  color: gold;
+}
+
+/* Add Review */
+.add-review {
+  margin-top: 20px;
+}
+
+.add-review textarea {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.rating-input {
+  margin-top: 10px;
+}
+
+.submit-review-btn {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-review-btn:hover {
+  background: #222;
+}

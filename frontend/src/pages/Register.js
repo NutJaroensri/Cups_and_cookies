@@ -6,8 +6,9 @@ import '../styles.css';
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');  // Add phone
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user'); // Default role: user
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -16,10 +17,10 @@ function Register() {
       const response = await axios.post('http://localhost:5000/api/auth/register', { 
         name, 
         email, 
-        phone,  // Send phone
+        phone,  
         password, 
-        role: 'user',  // Default role
-        subscription: 'none'  // Default subscription
+        role,  // Send role from state
+        subscription: 'none'  
       });
 
       alert('Registration successful!');
@@ -52,6 +53,13 @@ function Register() {
           <div className="input-group">
             <label>Password</label>
             <input className="form-field" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
+          <div className="input-group">
+            <label>Role</label>
+            <select className="form-field" value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
           <button className="form-button" type="submit">SIGN UP</button>
         </form>

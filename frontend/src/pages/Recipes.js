@@ -56,7 +56,11 @@ const Recipes = () => {
         {/* Recipe List */}
         <div className="item-list">
           {filteredRecipes.map((recipe) => (
-            <div key={recipe._id} className="item-card">
+            <div 
+              key={recipe._id} 
+              className="item-card"
+              onClick={() => navigate(`/recipes/${recipe._id}`)} // ✅ Navigate to details page
+            >
               <img src={recipe.image || "default.jpg"} alt={recipe.title} className="item-img" />
               <h3>{recipe.title}</h3>
               <p>⭐ {Math.floor(Math.random() * (5 - 4 + 1) + 4)}.0</p>
