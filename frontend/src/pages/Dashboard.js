@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../styles.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "../styles.css";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -11,12 +11,13 @@ function Dashboard() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem('userId');
-        if (!userId) return;
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
 
-        const token = localStorage.getItem('token');
+        if (!userId || !token) return;
+
         const response = await axios.get(`http://localhost:5000/api/users/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         setUsername(response.data.username);
@@ -31,23 +32,27 @@ function Dashboard() {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
     <div className="dashboard-container">
-      <button className="back-btn" onClick={() => navigate('/mainpage')}>←</button>
+      <button className="back-btn" onClick={() => navigate("/mainpage")}>←</button>
 
       <div className="profile-card">
         <div className="profile-image">
-          <img src="default-profile.png" alt="Profile" />
+          <img src="/images/default-profile.png" alt="Profile" />
         </div>
-        <h2 className="username">{username}</h2> 
-        <h3 className="role-label">{role === 'admin' ? 'Admin' : 'User'}</h3> {/* ✅ Display Role */}
+
+        <h2 className="username">{username}</h2>
+        <h3 className="role-label">{role === "admin" ? "Admin" : "User"}</h3>
 
         <div className="menu-options">
-        <button className="menu-item" onClick={() => navigate('/personal-info')}>👤 Personal Info</button>
-          {role === 'admin' && <button className="menu-item">🛠 Admin Settings</button>} {/* ✅ Admin Only */}
+          <button className="menu-item" onClick={() => navigate("/personal-info")}>👤 Personal Info</button>
+          {role === "admin" && (
+            <button className="menu-item" onClick={() => navigate("/admin-dashboard")}>🛠 Admin Dashboard</button>
+          )}
+          <button className="menu-item" onClick={() => navigate("/cart")}>🛒 View Cart</button>
           <button className="menu-item">💜 Favourite</button>
           <button className="menu-item">🔔 Notifications</button>
           <button className="menu-item">💳 Payment Method</button>

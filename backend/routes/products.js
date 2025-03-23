@@ -1,6 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product'); // Import the Product model
+const multer = require('multer'); // For handling file uploads
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Save files in the 'uploads' directory
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Unique filename
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // ✅ GET all products
 router.get('/', async (req, res) => {
@@ -23,33 +36,49 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// ✅ POST create a new product
-router.post('/', async (req, res) => {
-  const { name, description, price, category, inStock } = req.body;
+// ✅ POST create a new product (with file upload)
+router.post('/', upload.single('image'), async (req, res) => {
+  const { name, description, price, category, quantity, inStock } = req.body;
   try {
-    const product = new Product({ name, description, price, category, inStock });
+    const product = new Product({
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      inStock,
+      image: req.file ? req.file.path : 'default.jpg' // Save the file path or use a default image
+    });
+
     await product.save();
     res.status(201).json(product);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    console.error("Error adding product:", err);
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 
-// ✅ PUT update product by ID
-router.put('/:id', async (req, res) => {
-  const { name, description, price, category, inStock } = req.body;
+// ✅ PUT update product by ID (with optional file upload)
+router.put('/:id', upload.single('image'), async (req, res) => {
+  const { name, description, price, category, quantity, inStock } = req.body;
   try {
     let product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ msg: 'Product not found' });
-    product.name = name || product.name;
-    product.description = description || product.description;
-    product.price = price || product.price;
-    product.category = category || product.category;
-    product.inStock = inStock !== undefined ? inStock : product.inStock;
+
+    // Update fields if provided
+    if (name !== undefined) product.name = name;
+    if (description !== undefined) product.description = description;
+    if (price !== undefined) product.price = price;
+    if (category !== undefined) product.category = category;
+    if (quantity !== undefined) product.quantity = quantity;
+    if (inStock !== undefined) product.inStock = inStock;
+    if (req.file) product.image = req.file.path; // Update image if a new file is uploaded
+
     await product.save();
     res.json(product);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    console.error("Error updating product:", err);
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 
@@ -60,7 +89,8 @@ router.delete('/:id', async (req, res) => {
     if (!product) return res.status(404).json({ msg: 'Product not found' });
     res.json({ msg: 'Product removed' });
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    console.error("Error deleting product:", err);
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 

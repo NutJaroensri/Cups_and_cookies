@@ -10,9 +10,21 @@ const MainPage = () => {
     <div className="main-page-container">
       {/* Top Navigation */}
       <div className="top-bar">
-        <div className="user-icon" onClick={() => navigate("/dashboard")}>👤</div>
-        <h1 className="welcome-text">Hey .., <span className="highlight">Good Afternoon!</span></h1>
-      </div>
+  <div
+    className="user-icon"
+    onClick={() => {
+      const role = localStorage.getItem('role'); // Get the user's role from localStorage
+      if (role === 'admin') {
+        navigate('/admin-dashboard'); // Redirect admins to the admin dashboard
+      } else {
+        navigate('/dashboard'); // Redirect regular users to the dashboard
+      }
+    }}
+  >
+    👤
+  </div>
+  <h1 className="welcome-text">Hey .., <span className="highlight">Good Afternoon!</span></h1>
+</div>
 
       {/* Search Bar */}
       <input

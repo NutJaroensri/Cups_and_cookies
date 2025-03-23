@@ -25,11 +25,13 @@ const Products = () => {
   return (
     <div className="overlay">
       <div className="centered-container">
+        {/* Top Bar */}
         <div className="top-controls">
           <button className="back-btn" onClick={() => navigate("/mainpage")}>←</button>
           <h2>Products</h2>
         </div>
 
+        {/* Search Bar */}
         <input
           type="text"
           placeholder="Search products..."
@@ -38,6 +40,7 @@ const Products = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
 
+        {/* Category Buttons */}
         <div className="categories">
           {["All", "Coffee", "Cakes", "Pastries"].map((category) => (
             <button
@@ -50,16 +53,17 @@ const Products = () => {
           ))}
         </div>
 
+        {/* Product Grid */}
         <div className="item-list">
           {filteredProducts.map((product) => (
             <div
               key={product._id}
               className="item-card"
-              onClick={() => navigate(`/products/${product._id}`)} // Navigate to details page
+              onClick={() => navigate(`/products/${product._id}`)}
             >
               <img src={product.image || "default.jpg"} alt={product.name} className="item-img" />
               <h3>{product.name}</h3>
-              <p>⭐ {Math.floor(Math.random() * (5 - 4 + 1) + 4)}.0</p>
+              <p>⭐ {product.rating || "4.5"}</p>
             </div>
           ))}
         </div>

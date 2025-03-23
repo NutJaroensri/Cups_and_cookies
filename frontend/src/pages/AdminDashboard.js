@@ -10,64 +10,66 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   // Product & Recipe States
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: '' });
+  const [newProduct, setNewProduct] = useState({ 
+    name: '', 
+    description: '', 
+    price: '', 
+    category: '', 
+    quantity: 0 
+  });
   const [productImage, setProductImage] = useState(null);
   const [newRecipe, setNewRecipe] = useState({ title: '', ingredients: '', steps: '' });
   const [recipeImage, setRecipeImage] = useState(null);
 
-  // ✅ Fetch Users
+  // Fetch users when the component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('token');
-        const role = localStorage.getItem('role');
-        console.log("Stored Role:", role);
-        console.log("Stored Token:", token);
-  
-        if (!token || role !== "admin") {
-          setError("Unauthorized access. You must be an admin.");
+        if (!token) {
+          setError("Unauthorized access.");
           return;
         }
-  
+
         const response = await axios.get('http://localhost:5000/api/admin/manage-users', {
           headers: { Authorization: `Bearer ${token}` }
         });
-  
-        console.log("API Response:", response.data);
-  
+
         if (Array.isArray(response.data)) {
           setUsers(response.data);
         } else {
           setError("Invalid data format from API");
         }
       } catch (error) {
-        console.error("Error fetching users:", error.response);
-        setError(error.response?.data?.msg || "Failed to load users.");
+        setError("Failed to load users. Make sure you have admin privileges.");
       }
     };
-    fetchUsers();
-  }, []);
-  
 
-  // ✅ Logout
+    if (activeTab === "users") {
+      fetchUsers();
+    }
+  }, [activeTab]);
+
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');
   };
 
-  // ✅ Add Product
+  // Add Product
   const handleAddProduct = async () => {
     try {
       const token = localStorage.getItem('token');
       const formData = new FormData();
       formData.append('name', newProduct.name);
+      formData.append('description', newProduct.description); // Add description
       formData.append('price', newProduct.price);
       formData.append('category', newProduct.category);
+      formData.append('quantity', newProduct.quantity);
       if (productImage) {
         formData.append('image', productImage);
       }
 
-      await axios.post('http://localhost:5000/api/admin/products', formData, {
+      const response = await axios.post('http://localhost:5000/api/admin/products', formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -75,14 +77,15 @@ function AdminDashboard() {
       });
 
       alert("Product added successfully!");
-      setNewProduct({ name: '', price: '', category: '' });
+      setNewProduct({ name: '', description: '', price: '', category: '', quantity: 0 }); // Reset form
       setProductImage(null);
     } catch (error) {
+      console.error("Error adding product:", error);
       alert("Error adding product: " + (error.response?.data?.msg || "Unknown error"));
     }
   };
 
-  // ✅ Add Recipe
+  // Add Recipe
   const handleAddRecipe = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -132,7 +135,7 @@ function AdminDashboard() {
             {error && <p className="error-text">{error}</p>}
             <ul className="user-list">
               {users.length > 0 ? users.map(user => (
-                <li key={user._id} className={`user-item ${user.role === 'admin' ? 'admin' : ''}`}>
+                <li key={user._id} className="user-item">
                   {user.name} - {user.email} ({user.role})
                 </li>
               )) : <p>No users found.</p>}
@@ -140,15 +143,43 @@ function AdminDashboard() {
           </div>
         )}
 
-
         {/* Add Product */}
         {activeTab === "products" && (
           <div className="admin-section">
             <h3>Add Product</h3>
-            <input type="text" placeholder="Product Name" value={newProduct.name} onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} />
-            <input type="text" placeholder="Price" value={newProduct.price} onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} />
-            <input type="text" placeholder="Category" value={newProduct.category} onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })} />
-            <input type="file" onChange={(e) => setProductImage(e.target.files[0])} />
+            <input 
+              type="text" 
+              placeholder="Product Name" 
+              value={newProduct.name} 
+              onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} 
+            />
+            <textarea 
+              placeholder="Description" 
+              value={newProduct.description} 
+              onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })} 
+            />
+            <input 
+              type="text" 
+              placeholder="Price" 
+              value={newProduct.price} 
+              onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} 
+            />
+            <input 
+              type="text" 
+              placeholder="Category" 
+              value={newProduct.category} 
+              onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })} 
+            />
+            <input 
+              type="number" 
+              placeholder="Quantity" 
+              value={newProduct.quantity} 
+              onChange={(e) => setNewProduct({ ...newProduct, quantity: e.target.value })} 
+            />
+            <input 
+              type="file" 
+              onChange={(e) => setProductImage(e.target.files[0])} 
+            />
             <button className="action-btn" onClick={handleAddProduct}>Add Product</button>
           </div>
         )}
@@ -157,10 +188,26 @@ function AdminDashboard() {
         {activeTab === "recipes" && (
           <div className="admin-section">
             <h3>Add Recipe</h3>
-            <input type="text" placeholder="Recipe Title" value={newRecipe.title} onChange={(e) => setNewRecipe({ ...newRecipe, title: e.target.value })} />
-            <textarea placeholder="Ingredients" value={newRecipe.ingredients} onChange={(e) => setNewRecipe({ ...newRecipe, ingredients: e.target.value })} />
-            <textarea placeholder="Steps" value={newRecipe.steps} onChange={(e) => setNewRecipe({ ...newRecipe, steps: e.target.value })} />
-            <input type="file" onChange={(e) => setRecipeImage(e.target.files[0])} />
+            <input 
+              type="text" 
+              placeholder="Recipe Title" 
+              value={newRecipe.title} 
+              onChange={(e) => setNewRecipe({ ...newRecipe, title: e.target.value })} 
+            />
+            <textarea 
+              placeholder="Ingredients" 
+              value={newRecipe.ingredients} 
+              onChange={(e) => setNewRecipe({ ...newRecipe, ingredients: e.target.value })} 
+            />
+            <textarea 
+              placeholder="Steps" 
+              value={newRecipe.steps} 
+              onChange={(e) => setNewRecipe({ ...newRecipe, steps: e.target.value })} 
+            />
+            <input 
+              type="file" 
+              onChange={(e) => setRecipeImage(e.target.files[0])} 
+            />
             <button className="action-btn" onClick={handleAddRecipe}>Add Recipe</button>
           </div>
         )}
