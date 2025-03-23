@@ -8,11 +8,15 @@ const RecipeSchema = new mongoose.Schema({
   description: { 
     type: String 
   },
-  ingredients: [{
-    type: String
-  }],
-  instructions: { 
+  ingredients: [{ 
     type: String 
+  }],
+  steps: [{ 
+    type: String 
+  }],
+  image: { 
+    type: String, 
+    default: 'default.jpg' 
   },
   createdAt: { 
     type: Date, 

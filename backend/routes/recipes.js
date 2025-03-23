@@ -1,6 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/Recipe');
+const multer = require('multer');
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // GET all recipes
 router.get('/', async (req, res) => {
@@ -27,15 +40,42 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST (create) a new recipe
-router.post('/', async (req, res) => {
+// POST a review for a recipe
+router.post('/:id/reviews', async (req, res) => {
   try {
-    const { title, description, ingredients, instructions } = req.body;
+    const { username, comment, rating } = req.body;
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ msg: 'Recipe not found' });
+    }
+
+    const newReview = {
+      username,
+      comment,
+      rating,
+      date: new Date().toLocaleDateString(),
+    };
+
+    recipe.reviews.push(newReview);
+    await recipe.save();
+
+    res.status(201).json(newReview);
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+// POST (create) a new recipe with file upload
+router.post('/', upload.single('image'), async (req, res) => {
+  try {
+    const { title, description, ingredients, steps } = req.body;
     const newRecipe = new Recipe({
       title,
       description,
-      ingredients,
-      instructions
+      ingredients: ingredients.split(',').map(ingredient => ingredient.trim()),
+      steps: steps.split(',').map(step => step.trim()),
+      image: req.file ? req.file.path : 'default.jpg',
     });
     await newRecipe.save();
     res.status(201).json(newRecipe);
@@ -45,20 +85,20 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT (update) a recipe by ID
-router.put('/:id', async (req, res) => {
+// PUT (update) a recipe by ID with optional file upload
+router.put('/:id', upload.single('image'), async (req, res) => {
   try {
-    const { title, description, ingredients, instructions } = req.body;
+    const { title, description, ingredients, steps } = req.body;
     const recipe = await Recipe.findById(req.params.id);
     if (!recipe) {
       return res.status(404).json({ msg: 'Recipe not found' });
     }
 
-    // Update only if fields are provided
     if (title !== undefined) recipe.title = title;
     if (description !== undefined) recipe.description = description;
-    if (ingredients !== undefined) recipe.ingredients = ingredients;
-    if (instructions !== undefined) recipe.instructions = instructions;
+    if (ingredients !== undefined) recipe.ingredients = ingredients.split(',').map(ingredient => ingredient.trim());
+    if (steps !== undefined) recipe.steps = steps.split(',').map(step => step.trim());
+    if (req.file) recipe.image = req.file.path;
 
     await recipe.save();
     res.json(recipe);

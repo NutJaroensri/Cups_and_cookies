@@ -10,25 +10,20 @@ function RecipeDetails() {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(0);
-  const [username, setUsername] = useState("");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
+        console.log("Fetching recipe with ID:", id); // Log the recipe ID
         const response = await axios.get(`http://localhost:5000/api/recipes/${id}`);
+        console.log("Fetched recipe data:", response.data); // Log the fetched data
         setRecipe(response.data);
         setReviews(response.data.reviews || []);
       } catch (error) {
         console.error("Error fetching recipe:", error);
       }
     };
-
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-
     fetchRecipe();
   }, [id]);
 
@@ -44,7 +39,7 @@ function RecipeDetails() {
     }
 
     const reviewData = {
-      username,
+      username: localStorage.getItem("username"), // Use username from localStorage
       comment: newReview,
       rating,
       date: new Date().toLocaleDateString(),
@@ -55,6 +50,7 @@ function RecipeDetails() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
+      // Update the reviews state with the new review
       setReviews([...reviews, reviewData]);
       setNewReview("");
       setRating(0);

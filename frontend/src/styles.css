@@ -751,107 +751,278 @@ input[type="file"] {
 
 
 /* 🌟 Admin Dashboard */
+/* Admin Dashboard Container */
+
 .admin-dashboard-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #e0f4ff;
-  height: 100vh;
-  position: relative;
-}
-
-/* 📌 Profile Card */
-.admin-card {
-  background: white;
-  border-radius: 15px;
+  background-color: white;
   padding: 20px;
-  width: 600px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
+  min-height: 100vh;
+}
+/* Admin Dashboard - General Styling */
+.admin-dashboard-container {
+  background-color: #f9f9f9; /* Light gray background */
+  padding: 20px;
+  min-height: 100vh;
+  color: #333; /* Dark text for visibility */
 }
 
-/* 🏷️ Admin Header */
-.admin-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.admin-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #4a2e23; /* White background for the card */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Back Button */
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  color: #333; /* Dark text for visibility */
+}
 
-/* 📌 Tabs */
+/* Admin Header */
+.admin-header h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333; /* Dark text for visibility */
+}
+
+/* Tab Navigation */
 .admin-tabs {
   display: flex;
-  justify-content: space-around;
-  margin: 20px 0;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .admin-tabs button {
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
-  background: #ddd;
+  border-radius: 5px;
+  background-color: #e0e0e0; /* Light gray for tabs */
   cursor: pointer;
+  color: #333; /* Dark text for visibility */
+}
+
+.admin-tabs button.active-tab {
+  background-color: #007bff; /* Blue for active tab */
+  color: white; /* White text for active tab */
+}
+
+/* Users Section */
+.user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+   /* White background for user cards */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333; /* Dark text for visibility */
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333; /* Dark text for visibility */
+}
+
+.user-email {
+  font-size: 14px;
+  color: #666; /* Gray text for email */
+}
+
+.user-role {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.user-role.admin {
+  background-color: #007bff; /* Blue for admin role */
+  color: white; /* White text for admin role */
+}
+
+.user-role.user {
+  background-color: #28a745; /* Green for user role */
+  color: white; /* White text for user role */
+}
+
+.error-text {
+  color: red; /* Red for error messages */
+  margin-bottom: 20px;
+}
+/* Admin Card */
+.admin-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Back Button */
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* Admin Header */
+.admin-header h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Tab Navigation */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.admin-tabs button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.admin-tabs button.active-tab {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Admin Section */
+.admin-section {
+  margin-bottom: 40px;
+}
+
+.admin-section h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+/* Input and Textarea Styling */
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Action Button */
+.action-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* Product and Recipe Lists */
+.product-list, .recipe-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-item, .recipe-item {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.item-info {
   flex: 1;
 }
 
-.admin-tabs .active-tab {
-  background: #6d4c41;
-  color: white;
-  font-weight: bold;
+.item-info h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
 }
 
-/* ✏️ Form Sections */
-.admin-section {
+.item-info p {
+  margin: 0 0 5px;
+  color: #555;
+}
+
+.item-actions {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 10px;
 }
 
-.admin-section input, .admin-section textarea {
-  width: 90%;
-  margin: 8px 0;
-  padding: 8px;
-  border: 1px solid #ddd;
-}
-
-.action-btn {
-  background: #6d4c41;
+.update-btn {
+  background-color: #007bff;
   color: white;
-  padding: 10px;
   border: none;
-  width: 100%;
-  margin-top: 10px;
-}
-/* 🌟 User List */
-.user-list {
-  background: #f8f8f8;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.user-item {
-  background: #ddd;
-  padding: 8px;
-  margin: 5px 0;
+  padding: 8px 16px;
   border-radius: 5px;
-  color: #333;
+  cursor: pointer;
 }
 
-.user-item.admin {
-  background: #6d4c41;
+.delete-btn {
+  background-color: #dc3545;
   color: white;
-  font-weight: bold;
-}
-
-
-
-/* 🚪 Logout Button */
-.logout-btn {
-  background: red;
-  color: white;
-  width: 100%;
-  padding: 10px;
   border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Error Text */
+.error-text {
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Logout Button */
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
   margin-top: 20px;
 }
 
@@ -1409,4 +1580,152 @@ input[type="file"] {
 
 .reorder-btn:hover {
   background-color: #553127;
+}
+
+
+/* Reviews Section */
+.reviews-section {
+  margin-top: 20px;
+}
+
+.review-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.review-content {
+  margin-left: 10px;
+}
+
+.star-rating {
+  color: gold;
+}
+
+.add-review {
+  margin-top: 20px;
+}
+
+.rating-input {
+  margin: 10px 0;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 24px;
+  color: #ddd;
+}
+
+.star.selected {
+  color: gold;
+}
+
+.submit-review-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-review-btn:hover {
+  background-color: #45a049;
+}
+
+/* Reviews Section */
+.reviews-section {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.review-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.review-content {
+  margin-left: 10px;
+}
+
+.review-content strong {
+  font-size: 16px;
+  color: #333;
+}
+
+.review-content span {
+  font-size: 14px;
+  color: #777;
+}
+
+.star-rating {
+  color: gold;
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.review-content p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Add Review Section */
+.add-review {
+  margin-top: 20px;
+}
+
+.add-review h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.add-review textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 10px;
+}
+
+.rating-input {
+  margin: 10px 0;
+}
+
+.rating-input span {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 24px;
+  color: #ddd;
+  margin-right: 5px;
+}
+
+.star.selected {
+  color: gold;
+}
+
+.submit-review-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-review-btn:hover {
+  background-color: #45a049;
 }

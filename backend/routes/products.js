@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/Product'); // Import the Product model
-const multer = require('multer'); // For handling file uploads
+const Product = require('../models/Product');
+const multer = require('multer');
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Save files in the 'uploads' directory
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Unique filename
+    cb(null, Date.now() + '-' + file.originalname);
   }
 });
 
@@ -94,4 +94,30 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router; // ✅ Export the router
+// ✅ POST a review for a product
+router.post('/:id/reviews', async (req, res) => {
+  try {
+    const { username, comment, rating } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ msg: 'Product not found' });
+    }
+
+    const newReview = {
+      username,
+      comment,
+      rating,
+      date: new Date().toLocaleDateString(),
+    };
+
+    product.reviews.push(newReview);
+    await product.save();
+
+    res.status(201).json(newReview);
+  } catch (error) {
+    console.error('Error adding review:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+});
+
+module.exports = router;

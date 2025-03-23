@@ -1,5 +1,14 @@
 const mongoose = require('mongoose');
 
+// Define the Review schema
+const ReviewSchema = new mongoose.Schema({
+  username: { type: String, required: true }, // Username of the reviewer
+  comment: { type: String, required: true },  // Review comment
+  rating: { type: Number, required: true },   // Rating (1-5)
+  date: { type: String, default: new Date().toLocaleDateString() }, // Date of the review
+});
+
+// Define the Product schema
 const ProductSchema = new mongoose.Schema({
   name: { 
     type: String, 
@@ -40,6 +49,7 @@ const ProductSchema = new mongoose.Schema({
     type: String, 
     default: 'default.jpg' 
   },
+  reviews: [ReviewSchema], // Add reviews field
   createdAt: { 
     type: Date, 
     default: Date.now 
